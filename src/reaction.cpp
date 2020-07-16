@@ -172,6 +172,7 @@ const std::unordered_map<int, std::string> REACTION_NAME_MAP {
   {N_AC, "(n,ac)"},
   {N_2NC, "(n,2nc)"},
   {HEATING_LOCAL, "heating-local"},
+  {SURFACE_TRACK, "surface-track"}
 };
 
 std::string reaction_name(int mt)
