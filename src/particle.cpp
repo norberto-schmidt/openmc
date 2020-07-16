@@ -113,6 +113,14 @@ Particle::from_source(const Bank* src)
 
   // Copy attributes from source bank site
   type_ = src->particle;
+  switch (type_) {
+  case Particle::Type::neutron:
+      type_int_=2112;
+      break;
+  case Particle::Type::photon:
+      type_int_=22;
+      break;
+  }
   wgt_ = src->wgt;
   wgt_last_ = src->wgt;
   this->r() = src->r;

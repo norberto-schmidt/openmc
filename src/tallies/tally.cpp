@@ -225,7 +225,7 @@ score_str_to_int(std::string score_str)
     return PAIR_PROD;
   if (score_str == "photoelectric")
     return PHOTOELECTRIC;
-  if (score_str == "track-surface")
+  if (score_str == "surface-track")
     return SURFACE_TRACK;
 
   // So far we have not identified this score string.  Check to see if it is a
@@ -1061,11 +1061,11 @@ setup_active_tallies()
 
       case TallyType::SURFACE:
         model::active_surface_tallies.push_back(i);
-      }
 
       case TallyType::SURFACE_TRACK:
         model::active_surface_track.push_back(i);
         break;
+      }
 
       // Check if tally contains depletion reactions and if so, set flag
       if (tally.depletion_rx_) simulation::need_depletion_rx = true;

@@ -155,6 +155,7 @@ public:
   enum class Type {
     neutron, photon, electron, positron
   };
+  int type_int_;
 
   //! Saved ("banked") state of a particle
   //! NOTE: This structure's MPI type is built in initialize_mpi() of
