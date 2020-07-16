@@ -267,7 +267,7 @@ Particle::event_cross_surface()
     score_surface_tally(*this, model::active_surface_tallies);
   }
   if (!model::active_surface_track.empty()) {
-    score_surface_track(this, model::active_surface_track);
+    score_surface_track(*this, model::active_surface_track);
   }
 }
 

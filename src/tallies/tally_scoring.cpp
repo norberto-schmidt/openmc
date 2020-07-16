@@ -2391,12 +2391,12 @@ score_surface_tally(Particle& p, const std::vector<int>& tallies)
     match.bins_present_ = false;
 }
 void
-score_surface_track(const Particle* p, const std::vector<int>& tallies)
+score_surface_track(Particle &p, const std::vector<int>& tallies)
 {
     for (auto i_tally : tallies) {
       auto& tally {*model::tallies[i_tally]};
       auto filter_iter = FilterBinIter(tally, p);
-      auto end = FilterBinIter(tally, true);
+      auto end = FilterBinIter(tally, true, &p.filter_matches_);
       if (filter_iter == end) continue;
 
       std::string filename_;
@@ -2421,7 +2421,7 @@ score_surface_track(const Particle* p, const std::vector<int>& tallies)
         }
       }
     }
-    for (auto& match : simulation::filter_matches)
+    for (auto& match : p.filter_matches_)
       match.bins_present_ = false;
 }
 
