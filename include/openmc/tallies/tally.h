@@ -152,6 +152,7 @@ namespace model {
   extern std::vector<int> active_collision_tallies;
   extern std::vector<int> active_meshsurf_tallies;
   extern std::vector<int> active_surface_tallies;
+  extern std::vector<int> active_surface_track;
 }
 
 namespace simulation {
