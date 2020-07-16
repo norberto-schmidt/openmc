@@ -53,6 +53,7 @@ namespace model {
   std::vector<int> active_collision_tallies;
   std::vector<int> active_meshsurf_tallies;
   std::vector<int> active_surface_tallies;
+  std::vector<int> active_surface_track;
 }
 
 namespace simulation {
@@ -1012,6 +1013,8 @@ setup_active_tallies()
   model::active_collision_tallies.clear();
   model::active_meshsurf_tallies.clear();
   model::active_surface_tallies.clear();
+  model::active_surface_track.clear();
+
 
   for (auto i = 0; i < model::tallies.size(); ++i) {
     const auto& tally {*model::tallies[i]};
@@ -1041,6 +1044,10 @@ setup_active_tallies()
         model::active_surface_tallies.push_back(i);
       }
 
+      case TallyType::SURFACE_TRACK:
+        model::active_surface_track.push_back(i);
+        break;
+
       // Check if tally contains depletion reactions and if so, set flag
       if (tally.depletion_rx_) simulation::need_depletion_rx = true;
     }
@@ -1064,6 +1071,7 @@ free_memory_tally()
   model::active_collision_tallies.clear();
   model::active_meshsurf_tallies.clear();
   model::active_surface_tallies.clear();
+  model::active_surface_track.clear();
 
   model::tally_map.clear();
 }
