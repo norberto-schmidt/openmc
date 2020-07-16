@@ -2391,7 +2391,7 @@ score_surface_tally(Particle& p, const std::vector<int>& tallies)
     match.bins_present_ = false;
 }
 void
-score_surface_track(Particle &p, const std::vector<int>& tallies)
+surface_track(Particle &p, const std::vector<int>& tallies)
 {
     for (auto i_tally : tallies) {
       auto& tally {*model::tallies[i_tally]};

@@ -94,7 +94,7 @@ void score_tracklength_tally(Particle& p, double distance);
 //! \param p The particle being tracked
 //! \param tallies A vector of tallies to score to
 void score_surface_tally(Particle& p, const std::vector<int>& tallies);
-void score_surface_track(Particle& p, const std::vector<int>& tallies);
+void surface_track(Particle& p, const std::vector<int>& tallies);
 
 } // namespace openmc
 
