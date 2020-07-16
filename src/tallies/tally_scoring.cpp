@@ -2390,5 +2390,39 @@ score_surface_tally(Particle& p, const std::vector<int>& tallies)
   for (auto& match : p.filter_matches_)
     match.bins_present_ = false;
 }
+void
+score_surface_track(const Particle* p, const std::vector<int>& tallies)
+{
+    for (auto i_tally : tallies) {
+      auto& tally {*model::tallies[i_tally]};
+      auto filter_iter = FilterBinIter(tally, p);
+      auto end = FilterBinIter(tally, true);
+      if (filter_iter == end) continue;
+
+      std::string filename_;
+      std::stringstream ss;
+      ss << settings::path_output << "surftrack.txt";
+      //ss << settings::path_output << "surftrack." << tally.id_ << ".txt";
+      filename_ = ss.str();
+
+      for (; filter_iter != end; ++filter_iter) {
+        auto filter_index = filter_iter.index_;
+        auto filter_weight = filter_iter.weight_;
+
+        for (auto i = 0; i < p->n_coord_; i++) {
+            std::ofstream outfile;
+            outfile.open(filename_,std::ios_base::app);
+            outfile << p->type_int_ << "\t" << p->E_ << "\t"
+                    << p->coord_[i].r.x << "\t" << p->coord_[i].r.y << "\t" << p->coord_[i].r.z << "\t"
+                    << p->coord_[i].u.x << "\t" << p->coord_[i].u.y << "\t" << p->coord_[i].u.z << "\t"
+                    << 0.0 << "\t" << p->wgt_
+                    //<< 0.0 << 0.0 << 0.0
+                    << "\n";
+        }
+      }
+    }
+    for (auto& match : simulation::filter_matches)
+      match.bins_present_ = false;
+}
 
 } // namespace openmc
