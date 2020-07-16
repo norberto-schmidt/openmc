@@ -225,6 +225,8 @@ score_str_to_int(std::string score_str)
     return PAIR_PROD;
   if (score_str == "photoelectric")
     return PHOTOELECTRIC;
+  if (score_str == "track-surface")
+    return SURFACE_TRACK;
 
   // So far we have not identified this score string.  Check to see if it is a
   // deprecated score.
@@ -363,6 +365,7 @@ Tally::Tally(pugi::xml_node node)
         case SCORE_FISSION:
         case SCORE_NU_FISSION:
         case SCORE_CURRENT:
+        case SURFACE_TRACK:
         case SCORE_EVENTS:
         case SCORE_DELAYED_NU_FISSION:
         case SCORE_PROMPT_NU_FISSION:
@@ -653,6 +656,22 @@ Tally::set_scores(const std::vector<std::string>& scores)
         fatal_error("Cannot tally currents without surface type filters");
       }
       break;
+
+    case SURFACE_TRACK:
+      // Check which type of current is desired: mesh or surface currents.
+      if (surface_present || cell_present || cellfrom_present) {
+        if (meshsurface_present)
+          fatal_error("Cannot tally mesh surface currents in the same tally as "
+            "normal surface currents");
+        type_ = SURFACE_TRACK;
+      } else if (meshsurface_present) {
+        fatal_error("Cannot tally currents without surface type filters");
+      } else {
+        fatal_error("Cannot tally currents without surface type filters");
+      }
+      break;
+
+    }
 
     case HEATING:
       if (settings::photon_transport) estimator_ = TallyEstimator::COLLISION;
