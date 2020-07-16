@@ -19,6 +19,7 @@
 #include "openmc/tallies/filter_energy.h"
 
 #include <string>
+#include <fstream>
 
 namespace openmc {
 
@@ -2409,13 +2410,13 @@ surface_track(Particle &p, const std::vector<int>& tallies)
         auto filter_index = filter_iter.index_;
         auto filter_weight = filter_iter.weight_;
 
-        for (auto i = 0; i < p->n_coord_; i++) {
+        for (auto i = 0; i < p.n_coord_; i++) {
             std::ofstream outfile;
             outfile.open(filename_,std::ios_base::app);
-            outfile << p->type_int_ << "\t" << p->E_ << "\t"
-                    << p->coord_[i].r.x << "\t" << p->coord_[i].r.y << "\t" << p->coord_[i].r.z << "\t"
-                    << p->coord_[i].u.x << "\t" << p->coord_[i].u.y << "\t" << p->coord_[i].u.z << "\t"
-                    << 0.0 << "\t" << p->wgt_
+            outfile << p.type_int_ << "\t" << p.E_ << "\t"
+                    << p.coord_[i].r.x << "\t" << p.coord_[i].r.y << "\t" << p.coord_[i].r.z << "\t"
+                    << p.coord_[i].u.x << "\t" << p.coord_[i].u.y << "\t" << p.coord_[i].u.z << "\t"
+                    << 0.0 << "\t" << p.wgt_
                     //<< 0.0 << 0.0 << 0.0
                     << "\n";
         }

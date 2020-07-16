@@ -314,7 +314,8 @@ enum class TallyResult {
 enum class TallyType {
   VOLUME,
   MESH_SURFACE,
-  SURFACE
+  SURFACE,
+  SURFACE_TRACK
 };
 
 enum class TallyEstimator {

@@ -663,15 +663,13 @@ Tally::set_scores(const std::vector<std::string>& scores)
         if (meshsurface_present)
           fatal_error("Cannot tally mesh surface currents in the same tally as "
             "normal surface currents");
-        type_ = SURFACE_TRACK;
+        type_ = TallyType::SURFACE_TRACK;
       } else if (meshsurface_present) {
         fatal_error("Cannot tally currents without surface type filters");
       } else {
         fatal_error("Cannot tally currents without surface type filters");
       }
       break;
-
-    }
 
     case HEATING:
       if (settings::photon_transport) estimator_ = TallyEstimator::COLLISION;
