@@ -154,7 +154,7 @@ score_str_to_int(std::string score_str)
     return N_ND;
   if (score_str == "(n,nt)")
     return N_NT;
-  if (score_str == "(n,nHe-3)")
+  if (score_str == "(n,n3He)")
     return N_N3HE;
   if (score_str == "(n,nd2a)")
     return N_ND2A;
@@ -240,10 +240,12 @@ score_str_to_int(std::string score_str)
   try {
     MT = std::stoi(score_str);
   } catch (const std::invalid_argument& ex) {
-    throw std::invalid_argument("Invalid tally score \"" + score_str + "\"");
+    throw std::invalid_argument("Invalid tally score \"" + score_str + "\". See the docs "
+      "for details: https://docs.openmc.org/en/stable/usersguide/tallies.html#scores");
   }
   if (MT < 1)
-    throw std::invalid_argument("Invalid tally score \"" + score_str + "\"");
+    throw std::invalid_argument("Invalid tally score \"" + score_str + "\". See the docs "
+      "for details: https://docs.openmc.org/en/stable/usersguide/tallies.html#scores");
   return MT;
 }
 

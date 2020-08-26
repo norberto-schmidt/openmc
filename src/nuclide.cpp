@@ -32,8 +32,8 @@ std::array<double, 2> energy_min {0.0, 0.0};
 std::array<double, 2> energy_max {INFTY, INFTY};
 double temperature_min {0.0};
 double temperature_max {INFTY};
-std::vector<std::unique_ptr<Nuclide>> nuclides;
 std::unordered_map<std::string, int> nuclide_map;
+std::vector<std::unique_ptr<Nuclide>> nuclides;
 } // namespace data
 
 //==============================================================================
@@ -237,6 +237,16 @@ Nuclide::Nuclide(hid_t group, const std::vector<double>& temperature)
     // section should be determined from a normal reaction cross section, we
     // need to get the index of the reaction.
     if (temps_to_read.size() > 0) {
+      // Make sure inelastic flags are consistent for different temperatures
+      for (int i = 0; i < urr_data_.size() - 1; ++i) {
+        if (urr_data_[i].inelastic_flag_ != urr_data_[i+1].inelastic_flag_) {
+          fatal_error(fmt::format("URR inelastic flag is not consistent for "
+            "multiple temperatures in nuclide {}. This most likely indicates "
+            "a problem in how the data was processed.", name_));
+        }
+      }
+
+
       if (urr_data_[0].inelastic_flag_ > 0) {
         for (int i = 0; i < reactions_.size(); i++) {
           if (reactions_[i]->mt_ == urr_data_[0].inelastic_flag_) {
@@ -944,7 +954,7 @@ extern "C" int openmc_load_nuclide(const char* name, const double* temps, int n)
     // Get filename for library containing nuclide
     int idx = it->second;
     const auto& filename = data::libraries[idx].path_;
-    write_message("Reading " + std::string{name} + " from " + filename, 6);
+    write_message(6, "Reading {} from {}", name, filename);
 
     // Open file and make sure version is sufficient
     hid_t file_id = file_open(filename, 'r');
@@ -977,7 +987,7 @@ extern "C" int openmc_load_nuclide(const char* name, const double* temps, int n)
 
         int idx = it->second;
         const auto& filename = data::libraries[idx].path_;
-        write_message("Reading " + element + " from " + filename, 6);
+        write_message(6, "Reading {} from {} ", element, filename);
 
         // Open file and make sure version is sufficient
         hid_t file_id = file_open(filename, 'r');
